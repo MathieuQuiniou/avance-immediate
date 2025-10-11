@@ -8,6 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <style>
+
+    input:invalid, input[required]:invalid, select:invalid, select[required]:invalid {
+  border-color: red;
+}
+
     * {
       margin: 0;
       padding: 0;
@@ -1011,16 +1016,20 @@ body {
       document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
     }
     function validateStep(step) {
-      const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
-      const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
-      for (let input of inputs) {
-        if (!input.value.trim()) {
-          input.focus();
-          return false;
-        }
-      }
-      return true;
+  const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
+  const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+  let isValid = true;
+  inputs.forEach(input => {
+    if (!input.value.trim()) {
+      input.focus();
+      input.style.borderColor = 'red';
+      isValid = false;
+    } else {
+      input.style.borderColor = '';
     }
+  });
+  return isValid;
+}
     function nextStep() {
       if (validateStep(currentStep)) {
         if (currentStep < 3) {
@@ -1070,40 +1079,45 @@ body {
     }
 
     setInterval(rotateReviews, 5000);
-    document.getElementById('urssafForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Envoi en cours...';
-
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-
-      try {
-        await fetch('https://n8n.srv791471.hstgr.cloud/webhook-test/088e9d19-faad-4d20-a64e-3b590cb70019', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-        // Affiche le nom dans le message de succès
-        const civilite = data.civilite || '';
-        const nom = data.nomUsage || data.nomNaissance || '';
-        document.getElementById('userName').textContent = `${civilite} ${nom}`;
-        document.getElementById('mainHeader').style.display = 'none';
-        document.getElementById('progressBar').style.display = 'none';
-        document.getElementById('urssafForm').style.display = 'none'; // <-- Ajoute cette ligne
-        document.getElementById('successMessage').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      catch (error) {
-        alert('Une erreur est survenue. Veuillez réessayer.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Envoyer';
-      }
+    
+document.getElementById('urssafForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validateStep(3)) {
+    alert("Veuillez remplir tous les champs requis à l'étape 3.");
+    return;
+  }
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Envoi en cours...';
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+  try {
+    const response = await fetch('https://n8n.srv791471.hstgr.cloud/webhook-test/088e9d19-faad-4d20-a64e-3b590cb70019', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
     });
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP! statut: ${response.status}`);
+    }
+    const civilite = data.civilite === 'monsieur' ? 'Monsieur' : 'Madame';
+    const nom = data.nomUsage || data.nomNaissance || '';
+    document.getElementById('userName').textContent = `${civilite} ${nom}`;
+    document.getElementById('mainHeader').style.display = 'none';
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('urssafForm').style.display = 'none';
+    document.getElementById('successMessage').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (error) {
+    console.error("Erreur lors de l'envoi :", error);
+    alert('Une erreur est survenue. Veuillez réessayer ou vérifier votre connexion.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Envoyer';
+  }
+});
+
     
 const responsables = {
     1: {
