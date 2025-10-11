@@ -21,14 +21,12 @@
       --blanc: #fff;
     }
 
-    /* Dans ton CSS (remplace les règles actuelles) */
 body {
     font-family: 'Poppins', sans-serif;
     background: white;
     margin: 0;
     padding: 0;
-    height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Désactive la scrollbar du body */
 }
 
 .container {
@@ -37,10 +35,12 @@ body {
     padding: 30px 20px;
     position: relative;
     border: none;
-    height: 100vh; /* Prend toute la hauteur de l'écran */
-    overflow-y: auto; /* Active la scrollbar uniquement ici */
+    height: auto;
+    min-height: 100vh; /* Hauteur minimale pour remplir l'iframe */
+    overflow-y: auto; /* Scrollbar uniquement ici */
     box-sizing: border-box;
 }
+
 
     .support-bubble {
       position: absolute;
@@ -1193,7 +1193,9 @@ body {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Envoyer';
       }
-    });const responsables = {
+    });
+    
+const responsables = {
     1: {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8a04078593c4df15_Nacim.png",
         telephone: "+33743391606",
@@ -1203,7 +1205,7 @@ body {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02d80c508ca5a049ee9_Malo.png",
         telephone: "+33743397374",
         nom: "Malo"
-    },
+    }, // <-- Virgule ajoutée ici
     3: {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8ba7f6c1f6fab02c_Pierre-Louis.png",
         telephone: "+33744316946",
@@ -1230,6 +1232,21 @@ function updateSupportBubble() {
 
 // Au chargement de la page
 window.addEventListener('DOMContentLoaded', updateSupportBubble);
+// Envoie la hauteur du formulaire à Webflow
+function sendHeight() {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({ type: 'eddmon-urssaf-height', height: height }, '*');
+}
+
+// Appelle cette fonction au chargement et après chaque changement
+window.addEventListener('DOMContentLoaded', function() {
+    sendHeight();
+    updateSupportBubble(); // Met à jour la bulle avec les paramètres d'URL
+});
+
+window.addEventListener('resize', sendHeight);
+
+    
   </script>
 </body>
 
