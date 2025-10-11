@@ -21,15 +21,20 @@
       --blanc: #fff;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: white;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: white;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden; /* Empêche le scroll horizontal */
+}
+
+    html {
+  overflow-x: hidden;
+}
 
     .container {
       background: white;
@@ -1120,6 +1125,26 @@ function prevStep() {
     });
     
     window.addEventListener('resize', sendHeight);
+    // Envoie la hauteur au parent pour l'iframe
+function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage({
+        type: 'eddmon-urssaf-height',
+        height: height
+    }, '*');
+}
+
+// Envoie au chargement et observe les changements
+window.addEventListener('load', sendHeight);
+window.addEventListener('DOMContentLoaded', sendHeight);
+
+// Observer les changements DOM pour ajuster la hauteur
+const observer = new MutationObserver(sendHeight);
+observer.observe(document.body, { 
+    childList: true, 
+    subtree: true, 
+    attributes: true 
+});
 
   </script>
 </body>
