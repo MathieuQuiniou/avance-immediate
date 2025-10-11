@@ -8,11 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <style>
-
-    input:invalid, input[required]:invalid, select:invalid, select[required]:invalid {
-  border-color: red;
-}
-
     * {
       margin: 0;
       padding: 0;
@@ -26,24 +21,24 @@
       --blanc: #fff;
     }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background: white;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: white;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.container {
-    background: white;
-    border-radius: 16px;
-    max-width: 600px;
-    width: 100%;
-    padding: 40px;
-    position: relative;
-}
+    .container {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+      position: relative;
+    }
 
     .status-dot {
       position: absolute;
@@ -56,31 +51,32 @@ body {
       border-radius: 50%;
     }
 
-/* Responsive général */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px 15px 120px !important; /* 120px en bas pour l'espace */
+    /* Responsive général */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 15px 120px !important;
+        /* 120px en bas pour l'espace */
         margin: 10px;
         width: 95%;
-    }
+      }
 
-    .logos {
+      .logos {
         gap: 10px;
-    }
+      }
 
-    .logo-img {
+      .logo-img {
         height: 30px;
-    }
+      }
 
-    .header h1 {
+      .header h1 {
         font-size: 18px;
-    }
+      }
 
-    .form-row {
+      .form-row {
         grid-template-columns: 1fr;
-    }
+      }
 
-    .support-bubble {
+      .support-bubble {
         position: fixed;
         top: auto;
         bottom: 20px;
@@ -89,46 +85,47 @@ body {
         padding: 8px 15px 8px 8px;
         gap: 8px;
         margin-right: 0;
-    }
+      }
 
-    .support-avatar {
+      .support-avatar {
         width: 40px;
         height: 40px;
-    }
+      }
 
-    .support-phone {
+      .support-phone {
         font-size: 14px;
-    }
+      }
 
-    .support-text {
+      .support-text {
         font-size: 11px;
-    }
+      }
 
-    .step-label {
+      .step-label {
         font-size: 10px;
-    }
-}
-
-/* Pour les très petits écrans */
-@media (max-width: 400px) {
-    .container {
-        padding: 15px 10px 120px !important; /* 120px en bas */
+      }
     }
 
-    .logos {
+    /* Pour les très petits écrans */
+    @media (max-width: 400px) {
+      .container {
+        padding: 15px 10px 120px !important;
+        /* 120px en bas */
+      }
+
+      .logos {
         flex-direction: column;
         align-items: flex-start;
-    }
+      }
 
-    .separator {
+      .separator {
         display: none;
-    }
+      }
 
-    .logo-img {
+      .logo-img {
         height: 25px;
         margin-bottom: 5px;
+      }
     }
-}
 
 
     .header {
@@ -645,11 +642,12 @@ body {
 
   <div class="container">
     <div class="header" id="mainHeader">
-<div class="logos">
-  <img src="https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68e946c91b995ba903e54612_logo.svg"
-    alt="Urssaf" class="logo-img">
-</div>
-      <h1>Remplissez le formulaire avec les informations du titulaire du compte URSSAF (pour bénéficier de l'avance immédiate).</h1>
+      <div class="logos">
+        <img src="https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68e946c91b995ba903e54612_logo.svg"
+          alt="Urssaf" class="logo-img">
+      </div>
+      <h1>Remplissez le formulaire avec les informations du titulaire du compte URSSAF (pour bénéficier de l'avance
+        immédiate).</h1>
       <span class="time-info">⏱ 1 minute</span>
     </div>
     <div class="progress-bar step-1" id="progressBar">
@@ -1016,20 +1014,20 @@ body {
       document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
     }
     function validateStep(step) {
-  const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
-  const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
-  let isValid = true;
-  inputs.forEach(input => {
-    if (!input.value.trim()) {
-      input.focus();
-      input.style.borderColor = 'red';
-      isValid = false;
-    } else {
-      input.style.borderColor = '';
+      const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
+      const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+      let isValid = true;
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.focus();
+          input.style.borderColor = 'red';
+          isValid = false;
+        } else {
+          input.style.borderColor = '';
+        }
+      });
+      return isValid;
     }
-  });
-  return isValid;
-}
     function nextStep() {
       if (validateStep(currentStep)) {
         if (currentStep < 3) {
@@ -1079,98 +1077,98 @@ body {
     }
 
     setInterval(rotateReviews, 5000);
-    
-document.getElementById('urssafForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (!validateStep(3)) {
-    alert("Veuillez remplir tous les champs requis à l'étape 3.");
-    return;
-  }
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Envoi en cours...';
-  const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
-  try {
-    const response = await fetch('https://n8n.srv791471.hstgr.cloud/webhook/088e9d19-faad-4d20-a64e-3b590cb70019', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP! statut: ${response.status}`);
-    }
-    const civilite = data.civilite === 'monsieur' ? 'Monsieur' : 'Madame';
-    const nom = data.nomUsage || data.nomNaissance || '';
-    document.getElementById('userName').textContent = `${civilite} ${nom}`;
-    document.getElementById('mainHeader').style.display = 'none';
-    document.getElementById('progressBar').style.display = 'none';
-    document.getElementById('urssafForm').style.display = 'none';
-    document.getElementById('successMessage').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error("Erreur lors de l'envoi :", error);
-    alert('Une erreur est survenue. Veuillez réessayer ou vérifier votre connexion.');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Envoyer';
-  }
-});
 
-    
-const responsables = {
-    1: {
+    document.getElementById('urssafForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateStep(3)) {
+        alert("Veuillez remplir tous les champs requis à l'étape 3.");
+        return;
+      }
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      try {
+        const response = await fetch('https://n8n.srv791471.hstgr.cloud/webhook/088e9d19-faad-4d20-a64e-3b590cb70019', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP! statut: ${response.status}`);
+        }
+        const civilite = data.civilite === 'monsieur' ? 'Monsieur' : 'Madame';
+        const nom = data.nomUsage || data.nomNaissance || '';
+        document.getElementById('userName').textContent = `${civilite} ${nom}`;
+        document.getElementById('mainHeader').style.display = 'none';
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('urssafForm').style.display = 'none';
+        document.getElementById('successMessage').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (error) {
+        console.error("Erreur lors de l'envoi :", error);
+        alert('Une erreur est survenue. Veuillez réessayer ou vérifier votre connexion.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Envoyer';
+      }
+    });
+
+
+    const responsables = {
+      1: {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8a04078593c4df15_Nacim.png",
         telephone: "+33743391606",
         nom: "Nacim"
-    },
-    2: {
+      },
+      2: {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02d80c508ca5a049ee9_Malo.png",
         telephone: "+33743397374",
         nom: "Malo"
-    }, // <-- Virgule ajoutée ici
-    3: {
+      }, // <-- Virgule ajoutée ici
+      3: {
         photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8ba7f6c1f6fab02c_Pierre-Louis.png",
         telephone: "+33744316946",
         nom: "Pierre-Louis"
+      }
+    };
+
+    function getResponsableId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('responsable') || '1';
     }
-};
 
-function getResponsableId() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('responsable') || '1';
-}
+    function updateSupportBubble() {
+      const id = getResponsableId();
+      const responsable = responsables[id] || responsables[1];
 
-function updateSupportBubble() {
-    const id = getResponsableId();
-    const responsable = responsables[id] || responsables[1];
+      // Met à jour la photo, le numéro et le nom
+      document.querySelector('.support-avatar img').src = responsable.photo;
+      document.querySelector('.support-avatar').href = `tel:${responsable.telephone}`;
+      document.querySelector('.support-phone').href = `tel:${responsable.telephone}`;
+      document.querySelector('.phone-number').textContent = responsable.telephone;
+      document.querySelector('.support-name').textContent = responsable.nom; // Met à jour le nom
+    }
 
-    // Met à jour la photo, le numéro et le nom
-    document.querySelector('.support-avatar img').src = responsable.photo;
-    document.querySelector('.support-avatar').href = `tel:${responsable.telephone}`;
-    document.querySelector('.support-phone').href = `tel:${responsable.telephone}`;
-    document.querySelector('.phone-number').textContent = responsable.telephone;
-    document.querySelector('.support-name').textContent = responsable.nom; // Met à jour le nom
-}
+    // Au chargement de la page
+    window.addEventListener('DOMContentLoaded', updateSupportBubble);
+    // Envoie la hauteur du formulaire à Webflow
+    function sendHeight() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ type: 'eddmon-urssaf-height', height: height }, '*');
+    }
 
-// Au chargement de la page
-window.addEventListener('DOMContentLoaded', updateSupportBubble);
-// Envoie la hauteur du formulaire à Webflow
-function sendHeight() {
-    const height = document.body.scrollHeight;
-    window.parent.postMessage({ type: 'eddmon-urssaf-height', height: height }, '*');
-}
+    // Appelle cette fonction au chargement et après chaque changement
+    window.addEventListener('DOMContentLoaded', function () {
+      sendHeight();
+      updateSupportBubble(); // Met à jour la bulle avec les paramètres d'URL
+    });
 
-// Appelle cette fonction au chargement et après chaque changement
-window.addEventListener('DOMContentLoaded', function() {
-    sendHeight();
-    updateSupportBubble(); // Met à jour la bulle avec les paramètres d'URL
-});
+    window.addEventListener('resize', sendHeight);
 
-window.addEventListener('resize', sendHeight);
 
-    
   </script>
 </body>
 
