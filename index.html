@@ -69,6 +69,14 @@
       flex-shrink: 0;
     }
 
+    .support-name {
+    font-size: 12px;
+    color: #333;
+    font-weight: 600;
+    text-align: left;
+    margin-top: -3px;
+}
+
     .support-phone-container {
       display: flex;
       flex-direction: column;
@@ -711,9 +719,10 @@
     </a>
     <div class="support-phone-container">
         <a href="tel:+33681234567" class="support-phone">
-            ☎️ +33 6 81 23 45 67
+            ☎️ <span class="phone-number">+33 6 81 23 45 67</span>
         </a>
         <div class="support-text">Une question ? Appelez-moi</div>
+        <div class="support-name">Nacim</div> <!-- Nouvelle div pour le nom -->
     </div>
 </div>
 
@@ -1197,6 +1206,11 @@
         telephone: "+33743397374",
         nom: "Malo"
     }
+    3: {
+        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8ba7f6c1f6fab02c_Pierre-Louis.png",
+        telephone: "+33744316946",
+        nom: "Pierre-Louis"
+    }
 };
 
 function getResponsableId() {
@@ -1208,10 +1222,12 @@ function updateSupportBubble() {
     const id = getResponsableId();
     const responsable = responsables[id] || responsables[1];
 
+    // Met à jour la photo, le numéro et le nom
     document.querySelector('.support-avatar img').src = responsable.photo;
     document.querySelector('.support-avatar').href = `tel:${responsable.telephone}`;
     document.querySelector('.support-phone').href = `tel:${responsable.telephone}`;
-    document.querySelector('.support-phone').innerHTML = `☎️ ${responsable.telephone}`;
+    document.querySelector('.phone-number').textContent = responsable.telephone;
+    document.querySelector('.support-name').textContent = responsable.nom; // Met à jour le nom
 }
 
 // Au chargement de la page
