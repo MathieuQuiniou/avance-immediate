@@ -1033,11 +1033,10 @@ function nextStep() {
     if (currentStep < 3) {
       currentStep++;
       updateProgress();
-      // Envoie un message au parent pour faire défiler l'iframe en haut
-      window.parent.postMessage({ type: 'eddmon-scroll-to-top' }, '*');
-      window.scrollTo({
-        top: 0, behavior: 'smooth'
-      });
+      // Force le scroll à l'intérieur de l'iframe
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Envoie un message au parent pour ajuster la position de l'iframe
+      window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
     }
   }
 }
@@ -1046,14 +1045,12 @@ function prevStep() {
   if (currentStep > 1) {
     currentStep--;
     updateProgress();
-    // Envoie un message au parent pour faire défiler l'iframe en haut
-    window.parent.postMessage({ type: 'eddmon-scroll-to-top' }, '*');
-    window.scrollTo({
-      top: 0, behavior: 'smooth'
-    });
+    // Force le scroll à l'intérieur de l'iframe
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Envoie un message au parent pour ajuster la position de l'iframe
+    window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
   }
 }
-
 
     // Carousel d'avis
     function rotateReviews() {
