@@ -1028,26 +1028,32 @@
       });
       return isValid;
     }
-    function nextStep() {
-      if (validateStep(currentStep)) {
-        if (currentStep < 3) {
-          currentStep++;
-          updateProgress();
-          window.scrollTo({
-            top: 0, behavior: 'smooth'
-          });
-        }
-      }
+function nextStep() {
+  if (validateStep(currentStep)) {
+    if (currentStep < 3) {
+      currentStep++;
+      updateProgress();
+      // Envoie un message au parent pour faire défiler l'iframe en haut
+      window.parent.postMessage({ type: 'eddmon-scroll-to-top' }, '*');
+      window.scrollTo({
+        top: 0, behavior: 'smooth'
+      });
     }
-    function prevStep() {
-      if (currentStep > 1) {
-        currentStep--;
-        updateProgress();
-        window.scrollTo({
-          top: 0, behavior: 'smooth'
-        });
-      }
-    }
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    updateProgress();
+    // Envoie un message au parent pour faire défiler l'iframe en haut
+    window.parent.postMessage({ type: 'eddmon-scroll-to-top' }, '*');
+    window.scrollTo({
+      top: 0, behavior: 'smooth'
+    });
+  }
+}
+
 
     // Carousel d'avis
     function rotateReviews() {
