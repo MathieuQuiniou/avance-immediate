@@ -1118,59 +1118,8 @@ function prevStep() {
         submitBtn.textContent = 'Envoyer';
       }
     });
-
-
-    const responsables = {
-      1: {
-        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8a04078593c4df15_Nacim.png",
-        telephone: "+33743391606",
-        nom: "Nacim"
-      },
-      2: {
-        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02d80c508ca5a049ee9_Malo.png",
-        telephone: "+33743397374",
-        nom: "Malo"
-      }, // <-- Virgule ajoutée ici
-      3: {
-        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8ba7f6c1f6fab02c_Pierre-Louis.png",
-        telephone: "+33744316946",
-        nom: "Pierre-Louis"
-      }
-    };
-
-    function getResponsableId() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('responsable') || '1';
-    }
-
-    function updateSupportBubble() {
-      const id = getResponsableId();
-      const responsable = responsables[id] || responsables[1];
-
-      // Met à jour la photo, le numéro et le nom
-      document.querySelector('.support-avatar img').src = responsable.photo;
-      document.querySelector('.support-avatar').href = `tel:${responsable.telephone}`;
-      document.querySelector('.support-phone').href = `tel:${responsable.telephone}`;
-      document.querySelector('.phone-number').textContent = responsable.telephone;
-      document.querySelector('.support-name').textContent = responsable.nom; // Met à jour le nom
-    }
-
-    // Au chargement de la page
-    window.addEventListener('DOMContentLoaded', updateSupportBubble);
-    // Envoie la hauteur du formulaire à Webflow
-    function sendHeight() {
-      const height = document.body.scrollHeight;
-      window.parent.postMessage({ type: 'eddmon-urssaf-height', height: height }, '*');
-    }
-
-    // Appelle cette fonction au chargement et après chaque changement
-    window.addEventListener('DOMContentLoaded', function () {
-      sendHeight();
-      updateSupportBubble(); // Met à jour la bulle avec les paramètres d'URL
-    });
-
+    
     window.addEventListener('resize', sendHeight);
-
 
   </script>
 </body>
