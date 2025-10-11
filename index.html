@@ -21,27 +21,30 @@
       --blanc: #fff;
     }
 
-    body {
+/* Remplace ton CSS actuel par ceci : */
+body {
     font-family: 'Poppins', sans-serif;
-    background: white; /* Fond blanc */
-    min-height: 100vh;
-    padding: 0; /* Supprime le padding du body */
+    background: white;
     margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Désactive la scrollbar du body */
 }
 
 .container {
-    background: white; /* Fond blanc */
-    border-radius: 16px;
-    box-shadow: none; /* Supprime l'ombre */
-    max-width: 600px;
+    background: white;
+    border-radius: 0; /* Supprime les coins arrondis pour un rendu plus propre dans l'iframe */
+    box-shadow: none;
+    max-width: 100%; /* Prend toute la largeur disponible */
     width: 100%;
-    padding: 40px;
+    padding: 30px 20px;
     position: relative;
-    border: none; /* Supprime la bordure */
+    border: none;
+    height: 100%; /* Prend toute la hauteur disponible */
+    overflow-y: auto; /* Active la scrollbar uniquement sur le conteneur */
+    max-height: 100vh; /* Limite la hauteur à la hauteur de l'écran */
 }
+
 
 
     .support-bubble {
