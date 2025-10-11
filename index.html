@@ -1186,8 +1186,36 @@
         submitBtn.disabled = false;
         submitBtn.textContent = 'Envoyer';
       }
-    });
+    });const responsables = {
+    1: {
+        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02f8a04078593c4df15_Nacim.png",
+        telephone: "+33743391606",
+        nom: "Nacim"
+    },
+    2: {
+        photo: "https://cdn.prod.website-files.com/62e7db7cc9c73e6d6a8e326b/68aee02d80c508ca5a049ee9_Malo.png",
+        telephone: "+33743397374",
+        nom: "Malo"
+    }
+};
 
+function getResponsableId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('responsable') || '1';
+}
+
+function updateSupportBubble() {
+    const id = getResponsableId();
+    const responsable = responsables[id] || responsables[1];
+
+    document.querySelector('.support-avatar img').src = responsable.photo;
+    document.querySelector('.support-avatar').href = `tel:${responsable.telephone}`;
+    document.querySelector('.support-phone').href = `tel:${responsable.telephone}`;
+    document.querySelector('.support-phone').innerHTML = `☎️ ${responsable.telephone}`;
+}
+
+// Au chargement de la page
+window.addEventListener('DOMContentLoaded', updateSupportBubble);
   </script>
 </body>
 
