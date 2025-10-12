@@ -29,7 +29,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden; /* Empêche le scroll horizontal */
+  overflow-x: hidden;
+  overflow-y: hidden; /* ← AJOUTEZ CETTE LIGNE */
 }
 
     html {
@@ -1038,8 +1039,7 @@ function nextStep() {
     if (currentStep < 3) {
       currentStep++;
       updateProgress();
-      // Force le scroll à l'intérieur de l'iframe
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // ← SUPPRIMEZ : window.scrollTo({ top: 0, behavior: 'smooth' });
       // Envoie un message au parent pour ajuster la position de l'iframe
       window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
     }
@@ -1050,8 +1050,7 @@ function prevStep() {
   if (currentStep > 1) {
     currentStep--;
     updateProgress();
-    // Force le scroll à l'intérieur de l'iframe
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // ← SUPPRIMEZ : window.scrollTo({ top: 0, behavior: 'smooth' });
     // Envoie un message au parent pour ajuster la position de l'iframe
     window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
   }
