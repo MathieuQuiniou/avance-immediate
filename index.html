@@ -21,21 +21,24 @@
       --blanc: #fff;
     }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: white;
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-  overflow-y: hidden; /* ← AJOUTEZ CETTE LIGNE */
-}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: white;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      /* ← AJOUTEZ CETTE LIGNE */
+    }
 
     html {
-  overflow-x: hidden;
-}
+      overflow-x: hidden;
+      overflow: hidden;
+      /* ← AJOUTEZ CETTE LIGNE */
+    }
 
     .container {
       background: white;
@@ -1034,27 +1037,25 @@ body {
       });
       return isValid;
     }
-function nextStep() {
-  if (validateStep(currentStep)) {
-    if (currentStep < 3) {
-      currentStep++;
-      updateProgress();
-      // ← SUPPRIMEZ : window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Envoie un message au parent pour ajuster la position de l'iframe
-      window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
+    function nextStep() {
+      if (validateStep(currentStep)) {
+        if (currentStep < 3) {
+          currentStep++;
+          updateProgress();
+          scrollToTop(); // ← REMPLACEZ window.scrollTo par ceci
+          setTimeout(sendHeight, 100);
+        }
+      }
     }
-  }
-}
 
-function prevStep() {
-  if (currentStep > 1) {
-    currentStep--;
-    updateProgress();
-    // ← SUPPRIMEZ : window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Envoie un message au parent pour ajuster la position de l'iframe
-    window.parent.postMessage({ type: 'eddmon-adjust-iframe-position' }, '*');
-  }
-}
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateProgress();
+        scrollToTop(); // ← REMPLACEZ window.scrollTo par ceci
+        setTimeout(sendHeight, 100);
+      }
+    }
 
     // Carousel d'avis
     function rotateReviews() {
@@ -1114,7 +1115,8 @@ function prevStep() {
         document.getElementById('progressBar').style.display = 'none';
         document.getElementById('urssafForm').style.display = 'none';
         document.getElementById('successMessage').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToTop();
+        setTimeout(sendHeight, 100);
       } catch (error) {
         console.error("Erreur lors de l'envoi :", error);
         alert('Une erreur est survenue. Veuillez réessayer ou vérifier votre connexion.');
@@ -1122,28 +1124,46 @@ function prevStep() {
         submitBtn.textContent = 'Envoyer';
       }
     });
-    
-    window.addEventListener('resize', sendHeight);
-    // Envoie la hauteur au parent pour l'iframe
-function sendHeight() {
-    const height = document.documentElement.scrollHeight;
-    window.parent.postMessage({
+
+    let heightSent = false;
+
+    // Fonction pour scroller en haut de la page parent
+    function scrollToTop() {
+      window.parent.postMessage({
+        type: 'eddmon-urssaf-scroll-top'
+      }, '*');
+    }
+
+    // Fonction pour envoyer la hauteur au parent
+    function sendHeight() {
+      if (heightSent) return;
+
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage({
         type: 'eddmon-urssaf-height',
         height: height
-    }, '*');
-}
+      }, '*');
 
-// Envoie au chargement et observe les changements
-window.addEventListener('load', sendHeight);
-window.addEventListener('DOMContentLoaded', sendHeight);
+      heightSent = true;
 
-// Observer les changements DOM pour ajuster la hauteur
-const observer = new MutationObserver(sendHeight);
-observer.observe(document.body, { 
-    childList: true, 
-    subtree: true, 
-    attributes: true 
-});
+      setTimeout(() => {
+        heightSent = false;
+      }, 500);
+    }
+
+    // Envoie la hauteur au chargement
+    window.addEventListener('load', () => setTimeout(sendHeight, 100));
+    window.addEventListener('DOMContentLoaded', () => setTimeout(sendHeight, 100));
+
+    // Observer les changements pour ajuster la hauteur
+    const observer = new MutationObserver(() => {
+      setTimeout(sendHeight, 100);
+    });
+
+    observer.observe(document.getElementById('urssafForm'), {
+      childList: true,
+      subtree: true
+    });
 
   </script>
 </body>
